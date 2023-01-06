@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+    var user = ViewData.Model;
+
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+<table>
+        <tr>
+            <th>Date_Time</th>
+            <th>IPAddress</th>
+        </tr>
+        <tr>
+            <td>@user.Date_time</td>
+            <td>@user.IPAddress</td>
+        </tr>
+</table>
