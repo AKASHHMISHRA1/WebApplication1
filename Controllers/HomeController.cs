@@ -31,7 +31,7 @@ namespace WebApplication1.Controllers
             string ip = HttpContext.Connection.RemoteIpAddress.ToString() ;
             Console.WriteLine(ip);
             
-            var user_identity = new BsonDocument
+            var userIdentity = new BsonDocument
             {
                 {"Date_time", date},
                 {"IPAddress",ip}
@@ -40,14 +40,14 @@ namespace WebApplication1.Controllers
             /*var database = client.GetDatabase("users");
             var table = database.GetCollection<BsonDocument>("visite_table");
             table.InsertOne(user_identity);*/
-            await _userService.Create(user_identity);
+            await _userService.Create(userIdentity);
 
-            var print_user_ipaddress = new user()
+            var printUserIpaddress = new User()
             {
                 Date_time = date,
                 IPAddress = ip,
             };
-            return View(print_user_ipaddress);
+            return View(printUserIpaddress);
         }
 
         public async Task<IActionResult> Privacy()
@@ -68,13 +68,13 @@ namespace WebApplication1.Controllers
             Console.WriteLine(t["Date_time"]);
             
             
-            var print_last_user_on_home = new user()
+            var printLastUserOnHome = new User()
             {
                 Date_time = t["Date_time"].ToString(),
                 IPAddress = t["IPAddress"].ToString(),
             };
 
-            return View(print_last_user_on_home);
+            return View(printLastUserOnHome);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
