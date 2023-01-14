@@ -23,7 +23,8 @@ namespace WebApplication1.Models
         }
         public async Task<List<BsonDocument>> Get()
         {
-            return await table.Find(new BsonDocument()).ToListAsync();
+            return await table.Find(new BsonDocument()).Sort("{st:-1}").Limit(1).ToListAsync();
+            //return await table.Find(new BsonDocument()).Limit(1).ToListAsync();
         }
     }
 }

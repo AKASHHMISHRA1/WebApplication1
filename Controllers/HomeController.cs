@@ -28,13 +28,19 @@ namespace WebApplication1.Controllers
         {
             string date = DateTime.Now.ToString();
             Console.WriteLine(date);
+            string st = DateTime.Now.ToString("o");
+
+            Console.WriteLine(st);
+            
+
             string ip = HttpContext.Connection.RemoteIpAddress.ToString() ;
             Console.WriteLine(ip);
             
             var userIdentity = new BsonDocument
             {
                 {"Date_time", date},
-                {"IPAddress",ip}
+                {"IPAddress",ip},
+                {"st",st },
             };
 
             /*var database = client.GetDatabase("users");
