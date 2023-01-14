@@ -6,27 +6,25 @@ using MongoDB.Driver;
 using SharpCompress.Common;
 using System.Linq;
 using MongoDB.Bson;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        private MongoClient client = new MongoClient("mongodb://127.0.0.1:27017/");
-        
+        /*private MongoClient client = new MongoClient("mongodb://127.0.0.1:27017/");*/
+        private readonly UsersService _userService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UsersService userService)
         {
             _logger = logger;
+            _userService = userService;
         }
 
-        /*public class user
-        {
-            public string Date_time { get; set; }
-            public string IPAddress { get; set; }
-        }*/
 
-        public IActionResult Index()
+        
+        public async Task<IActionResult> Index()
         {
             string date = DateTime.Now.ToString();
             Console.WriteLine(date);
@@ -39,10 +37,10 @@ namespace WebApplication1.Controllers
                 {"IPAddress",ip}
             };
 
-            var database = client.GetDatabase("users");
+            /*var database = client.GetDatabase("users");
             var table = database.GetCollection<BsonDocument>("visite_table");
-            table.InsertOne(user_identity);
-
+            table.InsertOne(user_identity);*/
+            await _userService.Create(user_identity);
 
             var print_user_ipaddress = new user()
             {
@@ -52,15 +50,17 @@ namespace WebApplication1.Controllers
             return View(print_user_ipaddress);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            var database = client.GetDatabase("users");
+            /*var database = client.GetDatabase("users");
             var table = database.GetCollection<BsonDocument>("visite_table");
 
-            var list_of_users_ip=table.Find(new BsonDocument()).ToList();
+            var list_of_users_ip=table.Find(new BsonDocument()).ToList();*/
+
             //var docs = table.Find(new BS).ToList();
+            var listOfUsersIp = await _userService.Get();
             BsonDocument t=new BsonDocument();
-            list_of_users_ip.ForEach(doc =>
+            listOfUsersIp.ForEach(doc =>
             {
                 Console.WriteLine(doc);
                 t = doc;
